@@ -1,0 +1,9 @@
+{
+    "directory_name": "ape-ethdenver",
+    "smart_contract_file_name": "DownstreamERC20",
+    "extension_name": "sol",
+    "token_symbol": "DTKN",
+    "token_name": "Downstream Token",
+    "use_mint": "n",
+    "use_modifier": "y"
+  }

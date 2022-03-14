@@ -1,0 +1,25 @@
+plugins:
+  - name: solidity  # For compiling contracts
+  - name: hardhat   # For running tests
+  - name: alchemy   # For using mainnet-fork in tests and deploying
+  - name: tokens    # For viewing information about other tokens
+
+dependencies:
+  - name: OpenZeppelin
+    github: OpenZeppelin/openzeppelin-contracts
+    version: 4.4.2
+
+solidity:
+  import_remapping:
+    - "@openzeppelin=OpenZeppelin/4.4.2"
+
+ethereum:
+  default_network: mainnet-fork
+  mainnet-fork:
+    default_provider: hardhat
+  mainnet:
+    default_provider: alchemy
+
+hardhat:
+  mainnet_fork:
+    upstream_provider: alchemy
