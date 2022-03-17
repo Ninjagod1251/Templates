@@ -1,7 +1,15 @@
 {
-    "directory_name": "Project name here Smart Contract",
-    "smart_contract_file_name": "Smart Contract Name",
-    "extension_name": "sol",
+    "directory_name": "Testproject",
+    "smart_contract_file_name": "TestToken",
     "token_symbol": "TKN",
-    "token_name": "Name of Token"
-  }
+    "token_name": "Test Token",
+    "mintable": "y",
+    "premint": "y",
+    "premint_amount": "1000",
+    "burnable": "y",
+    "pausable": "y",
+    "permit": "y",
+    "votes": "y",
+    "flashminting": "y",
+    "snapshot": "y"
+}
