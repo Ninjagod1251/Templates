@@ -2,33 +2,38 @@
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/access/Ownable.sol";
 {%- if cookiecutter.burnable == 'y' %} 
-mport "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol"; {%- endif %}
+import "@openzeppelin/token/ERC20/extensions/ERC20Burnable.sol"; {%- endif %}
 {%- if cookiecutter.pausable == 'y' %} 
-import "@openzeppelin/contracts/security/Pausable.sol";  {%- endif %}
+import "@openzeppelin/security/Pausable.sol";  {%- endif %}
 {%- if cookiecutter.permit == 'y' %} 
-import "@openzeppelin/contracts/token/ERC20/extensions/draft-ERC20Permit.sol"; {%- endif %}
+import "@openzeppelin/token/ERC20/extensions/draft-ERC20Permit.sol"; {%- endif %}
 {%- if cookiecutter.votes == 'y' %} 
-import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol"; {%- endif %}
+import "@openzeppelin/token/ERC20/extensions/ERC20Votes.sol"; {%- endif %}
 {%- if cookiecutter.flashminting == 'y' %} 
-mport "@openzeppelin/contracts/token/ERC20/extensions/ERC20FlashMint.sol"; {%- endif %}
+import "@openzeppelin/token/ERC20/extensions/ERC20FlashMint.sol"; {%- endif %}
 {%- if cookiecutter.snapshot == 'y' %} 
-import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Snapshot.sol"; {%- endif %}
+import "@openzeppelin/token/ERC20/extensions/ERC20Snapshot.sol"; {%- endif %}
 
 
 contract {{cookiecutter.smart_contract_file_name}} is ERC20 , Ownable 
-{%- if cookiecutter.burnable == 'y' %} , ERC20Burnable {%- endif %}
-{%- if cookiecutter.pausable == 'y' %} , Pausable {%- endif %}
-{%- if cookiecutter.permit == 'y' %} , ERC20Permit  {%- endif %}
-{%- if cookiecutter.votes == 'y' %} , ERC20Votes  {%- endif %}
-{%- if cookiecutter.flashminting == 'y' %} , ERC20FlashMint  {%- endif %}
-{%- if cookiecutter.snapshot == 'y' %} , ERC20Snapshot  {%- endif %} {
-    constructor() ERC20("{{cookiecutter.token_name}}", "{{cookiecutter.token_symbol}}") {
+{%- if cookiecutter.burnable == 'y' %}, ERC20Burnable {%- endif %}
+{%- if cookiecutter.pausable == 'y' %}, Pausable {%- endif %}
+{%- if cookiecutter.votes == 'y' %}, ERC20Votes  {%- endif %}
+{%- if cookiecutter.flashminting == 'y' %}, ERC20FlashMint  {%- endif %}
+{%- if cookiecutter.snapshot == 'y' %}, ERC20Snapshot  {%- endif %} {
+    constructor() ERC20("{{cookiecutter.token_name}}", "{{cookiecutter.token_symbol}}") {%- if cookiecutter.permit == 'y' or (cookiecutter.votes == 'y') %} ERC20Permit("{{cookiecutter.token_name}}") {%- endif %}{
 {%- if cookiecutter.premint == 'y' %} 
         _mint(msg.sender, {{cookiecutter.premint_amount}} * 10 ** decimals());
 {%- endif %}
     }
+
+{%- if cookiecutter.snapshot == 'y' %} 
+function snapshot() public onlyOwner {
+        _snapshot();
+    }
+{%- endif %}
 
 {%- if cookiecutter.pausable == 'y' %} 
     
@@ -48,13 +53,13 @@ contract {{cookiecutter.smart_contract_file_name}} is ERC20 , Ownable
     }
 {%- endif %}
 
-{%- if (cookiecutter.pausable == 'y') or (cookiecutter.snapshot == 'y')%} 
+{%- if (cookiecutter.pausable == 'y') or (cookiecutter.snapshot == 'y') %} 
 
     function _beforeTokenTransfer(address from, address to, uint256 amount)
         internal
-        {%if cookiecutter.pausable == 'y' %} whenNotPaused
+        {%if cookiecutter.pausable == 'y' %}whenNotPaused
         {%- endif %}
-        {%if cookiecutter.snapshot == 'y' %} override(ERC20, ERC20Snapshot)
+        {%if cookiecutter.snapshot == 'y' %}override(ERC20, ERC20Snapshot)
         {%- else %}
         override
         {%- endif %}
@@ -63,7 +68,6 @@ contract {{cookiecutter.smart_contract_file_name}} is ERC20 , Ownable
     }
 
 {%- endif %}
-
 
 {%- if cookiecutter.votes == 'y' %} 
 
@@ -91,9 +95,4 @@ contract {{cookiecutter.smart_contract_file_name}} is ERC20 , Ownable
     }
 
 {%- endif %}
-
-
-
-
-
 }
