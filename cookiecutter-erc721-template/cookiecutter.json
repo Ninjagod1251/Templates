@@ -1,0 +1,15 @@
+{
+    "directory_name": "erc721test",
+    "smart_contract_file_name": "TestToken",
+    "token_symbol": "TKN",
+    "token_name": "Test Token",
+    "ownable": "y",
+    "countable": "y",
+    "baseuri": "y",
+    "baseuri_string": "baseuristring",
+    "mintable": "y",
+    "burnable": "y",
+    "pausable": "y",
+    "votes": "y",
+    "uri_storage": "y"
+}
