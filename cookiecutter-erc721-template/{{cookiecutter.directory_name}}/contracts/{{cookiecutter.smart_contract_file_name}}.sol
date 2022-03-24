@@ -2,13 +2,25 @@
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/token/ERC721/ERC721.sol";
-import "@openzeppelin/access/Ownable.sol";
-{%- if cookiecutter.countable == 'y' %} 
-import "@openzeppelin/utils/Counters.sol"; {%- endif %}
+{%- if cookiecutter.enumerable == 'y' %} 
+import "@openzeppelin/token/ERC721/extensions/ERC721Enumerable.sol";
+{%- endif %}
+{%- if cookiecutter.uri_storage == 'y' %} 
+import "@openzeppelin/token/ERC721/extensions/ERC721URIStorage.sol";
+{%- endif %}
+{%- if cookiecutter.pausable == 'y' %} 
+import "@openzeppelin/security/Pausable.sol"; {%- endif %}
 {%- if cookiecutter.burnable == 'y' %} 
 import "@openzeppelin/token/ERC721/extensions/ERC721Burnable.sol"; {%- endif %}
-{%- if cookiecutter.pausable == 'y' %} 
-import "@openzeppelin/contracts/security/Pausable.sol"; {%- endif %}
+{%- if cookiecutter.uri_storage == 'y' %} 
+import "@openzeppelin/access/Ownable.sol";
+{% else %}
+import "@openzeppelin/access/AccessControl.sol";{%- endif %}
+{%- if cookiecutter.countable == 'y' %} 
+import "@openzeppelin/utils/cryptography/draft-EIP712.sol";
+import "@openzeppelin/token/ERC721/extensions/draft-ERC721Votes.sol"; {%- endif %}
+{%- if cookiecutter.countable == 'y' %} 
+import "@openzeppelin/utils/Counters.sol"; {%- endif %}
 
 contract {{cookiecutter.smart_contract_file_name}} is ERC721
 {%- if cookiecutter.burnable == 'y' %}, ERC721Burnable {%- endif %} 
@@ -39,7 +51,7 @@ contract {{cookiecutter.smart_contract_file_name}} is ERC721
 {%- if cookiecutter.baseuri == 'y' %} 
     function _baseURI() internal pure override returns (string memory) {
             return "{{cookiecutter.baseuri_string}}";
-        }`
+        }
 {%- endif %}
 
 {%- if cookiecutter.pausable == 'y' %} 
@@ -62,7 +74,7 @@ contract {{cookiecutter.smart_contract_file_name}} is ERC721
         }
 {%- endif %}
 
-{%- if (cookiecutter.pausable == 'y') or (cookiecutter.enumerable == 'y') %} 
+{%- if (cookiecutter.pausable == 'y') or (cookiecutter.enumerable == 'y') %}
 
     function _beforeTokenTransfer(address from, address to, uint256 tokenId)
         internal
@@ -86,7 +98,7 @@ contract {{cookiecutter.smart_contract_file_name}} is ERC721
     }
 {%- endif %}
 
-{%- (if cookiecutter.uri_storage == 'y')
+{%- if cookiecutter.uri_storage == 'y' %}
     function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
         super._burn(tokenId);
     }
@@ -101,13 +113,13 @@ contract {{cookiecutter.smart_contract_file_name}} is ERC721
     }
 {%- endif %}
 
-{%- (if cookiecutter.ownable == 'n')  or (cookiecutter.enumerable == 'y') %}
+{%- if (cookiecutter.ownable == 'n')  or (cookiecutter.enumerable == 'y') %}
     function supportsInterface(bytes4 interfaceId)
             public
             view
             override(ERC721 
-            {%- (if cookiecutter.ownable == 'n'), AccessControl {%- endif %} 
-            {%- (if cookiecutter.enumerable == 'y'), ERC721Enumerable {%- endif %} )
+            {%- if cookiecutter.ownable == 'n'%}, AccessControl {%- endif %} 
+            {%- if cookiecutter.enumerable == 'y'%}, ERC721Enumerable {%- endif %} )
             returns (bool)
         {
             return super.supportsInterface(interfaceId);

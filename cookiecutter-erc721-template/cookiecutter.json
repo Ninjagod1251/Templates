@@ -10,6 +10,7 @@
     "mintable": "y",
     "burnable": "y",
     "pausable": "y",
+    "enumerable": "y",
     "votes": "y",
     "uri_storage": "y"
 }
