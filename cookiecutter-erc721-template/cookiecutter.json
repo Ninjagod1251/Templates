@@ -1,5 +1,4 @@
 {
-    "directory_name": "erc721test",
     "smart_contract_file_name": "TestToken",
     "token_symbol": "TKN",
     "token_name": "Test Token",
