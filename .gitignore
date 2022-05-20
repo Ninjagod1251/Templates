@@ -8,3 +8,4 @@ erc721test2/
 generative-nft/
 cookiecutter-erc721-template/{{cookiecutter.directory_name}}/contracts/generative_template.sol
 cookiecutter-erc721-template/{{cookiecutter.directory_name}}/contracts/erc721_template.sol
+*/Testproject
