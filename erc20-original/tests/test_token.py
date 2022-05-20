@@ -125,30 +125,11 @@ def test_transfer_from(token, owner, accounts):
 
 
 
-
-
-
-#Test 4
-# Transfer value of amount to an address
-# Must fire the transfer event
-
-#Test 4-5 can be to check the validity of Transfer event
-
-
-
-#Test 6:
-# Test that the transferFrom contract sends a value to an address
-#The function SHOULD throw unless the _from account has deliberately authorized 
-# the sender of the message via some mechanism.
-#Note Transfers of 0 values MUST be treated as normal transfers and fire the Transfer event.
-
-
-#Test 7
+#Test Approve
 # Check the auth of an operator
 # set auth balance to 0 and check to make sure no attacks vectors
 #  THOUGH The contract itself shouldn’t enforce it, 
 # to allow backwards compatibility with contracts deployed before
-
 def test_approve(token, owner):
     pass
     #UC 1no one can send a token on you behalf
@@ -159,9 +140,10 @@ def test_approve(token, owner):
 # allowance:
 # Returns the amount which _spender is still allowed to withdraw from _owner.
 
-#Test 9
-# Transfer
-#MUST trigger when tokens are transferred, including zero value transfers.
-# A token contract which creates new tokens SHOULD trigger a Transfer event 
-# with the _from address set to 0x0 when tokens are created.
-# should be done in every test
+#Test Permit:
+"""
+validate that expiry is still valid
+permit an address(operator) to send an amount to another address
+validate that amount is correct in the reciever
+validate that nonce is correct 
+"""
